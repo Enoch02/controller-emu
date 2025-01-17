@@ -1,0 +1,13 @@
+{
+    "cmake.sourceDirectory": "C:/Programming/Projects/controller-emu/src",
+    "cSpell.words": [
+        "libgcc",
+        "libhidapi",
+        "libstdc",
+        "libvigemclient",
+        "msys",
+        "PVIGEM",
+        "Setupapi",
+        "VIGEM"
+    ]
+}
