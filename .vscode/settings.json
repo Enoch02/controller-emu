@@ -9,5 +9,8 @@
         "PVIGEM",
         "Setupapi",
         "VIGEM"
-    ]
+    ],
+    "files.associations": {
+        "ostream": "cpp"
+    }
 }

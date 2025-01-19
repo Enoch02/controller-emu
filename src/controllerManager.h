@@ -12,29 +12,31 @@
 #include <hidapi/hidapi.h>
 #include <iomanip>
 
-class ControllerManager {
-private:
-  PVIGEM_CLIENT vigem_client{};
-  PVIGEM_TARGET target{};
-  std::vector<hid_device *> connected_devices;
-  hid_device *selected_device;
-  bool is_running;
+#include "ControllerParser.h"
 
-public:
-  ControllerManager();
+class ControllerManager
+{
+  private:
+    PVIGEM_CLIENT vigem_client{};
+    PVIGEM_TARGET target{};
+    std::vector<hid_device *> connected_devices;
+    hid_device *selected_device;
+    bool is_running;
 
-  bool initialize();
+  public:
+    ControllerManager();
 
-  std::vector<hid_device_info *> detectControllers();
+    bool initialize();
 
-  bool selectDevice(const std::vector<hid_device_info *> &device_list,
-                    int selection);
+    std::vector<hid_device_info *> detectControllers();
 
-  void readControllerInput();
+    bool selectDevice(const std::vector<hid_device_info *> &device_list, int selection);
 
-  void stop();
+    void readControllerInput();
 
-  ~ControllerManager();
+    void stop();
+
+    ~ControllerManager();
 };
 
 #endif // CONTROLLER_MANAGER_H
