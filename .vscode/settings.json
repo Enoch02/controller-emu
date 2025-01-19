@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "C:/Programming/Projects/controller-emu/src",
+    "cmake.sourceDirectory": "C:/Programming/Projects/controller-emu",
     "cSpell.words": [
         "libgcc",
         "libhidapi",

@@ -17,10 +17,10 @@ set(HIDAPI_INCLUDE_DIR "${MSYS2_MINGW64_PATH}/include")
 set(HIDAPI_LIBRARY_DIR "${MSYS2_MINGW64_PATH}/lib")
 
 # Add ViGEmClient as a subdirectory
-add_subdirectory("ViGEmClient")
+add_subdirectory("src/ViGEmClient")
 
 # Define your executable
-add_executable(controller-emu main.cpp)
+add_executable(controller-emu src/main.cpp src/controllerManager.cpp)
 
 # Include directories
 target_include_directories(controller-emu PRIVATE
