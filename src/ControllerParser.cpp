@@ -69,8 +69,7 @@ ControllerState ControllerParser::parseRawData(const std::vector<uint8_t> &data)
 
 void ControllerParser::updateXInputState(PVIGEM_CLIENT client, PVIGEM_TARGET target, const ControllerState &state)
 {
-    XUSB_REPORT report;
-    memset(&report, 0, sizeof(XUSB_REPORT));
+    XUSB_REPORT report{};
 
     // Map analog sticks
     report.sThumbLX = state.leftStickX;

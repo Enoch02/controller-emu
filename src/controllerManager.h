@@ -14,7 +14,6 @@
 #include <filesystem>
 
 #include "ControllerParser.h"
-#include "Utils.h"
 
 class ControllerManager
 {
@@ -24,9 +23,7 @@ class ControllerManager
     std::vector<hid_device *> connected_devices{};
     hid_device *selected_device{};
     bool is_running{true};
-
     ControllerParser parser{};
-    std::map<std::string, ButtonMapping> input_mapping{};
 
   public:
     ControllerManager();
