@@ -4,14 +4,17 @@
 #include <windows.h>
 #include <ViGEm/Client.h>
 #include <vector>
+#include <map>
 #include "ControllerState.h"
 
 class ControllerParser
 {
   public:
-    static ControllerState ParseRawData(const std::vector<uint8_t> &data);
+    ControllerParser();
 
-    static void UpdateXInputState(PVIGEM_CLIENT client, PVIGEM_TARGET target, const ControllerState &state);
+    ControllerState parseRawData(const std::vector<uint8_t> &data);
+
+    void updateXInputState(PVIGEM_CLIENT client, PVIGEM_TARGET target, const ControllerState &state);
 };
 
 #endif // CONTROLLER_PARSER_H

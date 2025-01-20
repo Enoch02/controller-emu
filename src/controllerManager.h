@@ -11,17 +11,22 @@
 #include <ViGEm/Client.h>
 #include <hidapi/hidapi.h>
 #include <iomanip>
+#include <filesystem>
 
 #include "ControllerParser.h"
+#include "Utils.h"
 
 class ControllerManager
 {
   private:
     PVIGEM_CLIENT vigem_client{};
     PVIGEM_TARGET target{};
-    std::vector<hid_device *> connected_devices;
-    hid_device *selected_device;
-    bool is_running;
+    std::vector<hid_device *> connected_devices{};
+    hid_device *selected_device{};
+    bool is_running{true};
+
+    ControllerParser parser{};
+    std::map<std::string, ButtonMapping> input_mapping{};
 
   public:
     ControllerManager();
@@ -37,6 +42,8 @@ class ControllerManager
     void stop();
 
     ~ControllerManager();
+
+    const size_t report_size = 64; // default report size
 };
 
 #endif // CONTROLLER_MANAGER_H

@@ -33,3 +33,12 @@ target_link_libraries(controller-emu PRIVATE
     ViGEmClient::ViGEmClient  # Explicit target linking#
     Setupapi    # Link against SetupAPI for Windows API functions
 )
+
+target_compile_options(controller-emu PRIVATE
+    -Wall
+    -Wextra
+    #-Werror
+    -pedantic
+    -g
+)
+

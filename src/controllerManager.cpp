@@ -1,6 +1,6 @@
 #include "controllerManager.h"
 
-ControllerManager::ControllerManager() : vigem_client{nullptr}, target{nullptr}
+ControllerManager::ControllerManager()
 {
 }
 
@@ -56,13 +56,15 @@ std::vector<hid_device_info *> ControllerManager::detectControllers()
 
     while (current)
     {
-        std::wcout << L"[" << index++ << L"] Found device:" << std::endl
-                   << L"  Vendor ID: 0x" << std::hex << current->vendor_id << std::endl
-                   << L"  Product ID: 0x" << current->product_id << std::endl
+        std::wcout << L"[" << index++
+                   << L"] "
+                   //<< L"  Vendor ID: 0x" << std::hex << current->vendor_id << std::endl
+                   //<< L"  Product ID: 0x" << current->product_id << std::endl
                    << L"  Manufacturer: " << (current->manufacturer_string ? current->manufacturer_string : L"Unknown")
                    << std::endl
-                   << L"  Product: " << (current->product_string ? current->product_string : L"Unknown") << std::endl
-                   << L"  Path: " << current->path << std::endl
+                   << L"  Product: " << (current->product_string ? current->product_string : L"Unknown")
+                   << std::endl
+                   //<< L"  Path: " << current->path << std::endl
                    << L"----------------------------------------" << std::endl;
 
         device_list.push_back(current);
@@ -140,7 +142,8 @@ void ControllerManager::readControllerInput()
                                    << L" ";
                     }
 
-                    ControllerParser::UpdateXInputState(vigem_client, target, ControllerParser::ParseRawData(buffer));
+                    ControllerState state = parser.parseRawData(buffer);
+                    parser.updateXInputState(vigem_client, target, state);
                 }
                 std::wcout << std::endl;
             }
