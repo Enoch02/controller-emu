@@ -38,6 +38,13 @@ ControllerState ControllerParser::parseRawData(const std::vector<uint8_t> &data)
     if (data.size() >= 8)
     {
         // parse analog sticks
+        // Convert to 16-bit range
+        state.leftStickX = (data[3] - 128) * 256;
+        //state.leftStickY = (data[4] - 128) * 256; // Invert TODO: not inverted .. yet
+        state.leftStickY = ((255 - data[4]) - 128) * 256;
+        state.rightStickX = (data[1] - 128) * 256;
+        state.rightStickY = (data[2] - 128) * 256;
+
         // analog buttons
         uint8_t analog_buttons = data[6];
         state.leftThumb = analog_buttons == 0x40;
@@ -60,8 +67,14 @@ ControllerState ControllerParser::parseRawData(const std::vector<uint8_t> &data)
         state.rightTrigger = data[6] == 0x08 ? 255 : 0;
 
         // parse l1 and r1
-        state.leftShoulder = data[6] == 0x01 ? 1 : 0;
-        state.rightShoulder = data[6] == 0x02 ? 1 : 0;
+        state.leftShoulder = data[6] == 0x01 ? true : false;
+        state.rightShoulder = data[6] == 0x02 ? true : false;
+
+        // parse dpad
+        state.dpadUp = data[5] == 0x00 ? true : false;
+        state.dpadDown = data[5] == 0x04 ? true : false;
+        state.dpadLeft = data[5] == 0x06 ? true : false;
+        state.dpadRight = data[5] == 0x02 ? true : false;
     }
 
     return state;
@@ -102,6 +115,14 @@ void ControllerParser::updateXInputState(PVIGEM_CLIENT client, PVIGEM_TARGET tar
         report.wButtons |= XUSB_GAMEPAD_LEFT_THUMB;
     if (state.rightThumb)
         report.wButtons |= XUSB_GAMEPAD_RIGHT_THUMB;
+    if (state.dpadUp)
+        report.wButtons |= XUSB_GAMEPAD_DPAD_UP;
+    if (state.dpadDown)
+        report.wButtons |= XUSB_GAMEPAD_DPAD_DOWN;
+    if (state.dpadLeft)
+        report.wButtons |= XUSB_GAMEPAD_DPAD_LEFT;
+    if (state.dpadRight)
+        report.wButtons |= XUSB_GAMEPAD_DPAD_RIGHT;
 
     // Send report to virtual controller
     vigem_target_x360_update(client, target, report);

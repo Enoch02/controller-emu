@@ -1,3 +1,5 @@
+set(APP_ICON_RESOURCE "${CMAKE_CURRENT_SOURCE_DIR}/resources.rc")
+
 cmake_minimum_required(VERSION 3.10.0)
 
 project(controller-emu VERSION 0.0.1 LANGUAGES C CXX)
@@ -20,7 +22,7 @@ set(HIDAPI_LIBRARY_DIR "${MSYS2_MINGW64_PATH}/lib")
 add_subdirectory("src/ViGEmClient")
 
 # Define your executable
-add_executable(controller-emu src/main.cpp src/ControllerManager.cpp src/ControllerParser.cpp)
+add_executable(controller-emu src/main.cpp src/ControllerManager.cpp src/ControllerParser.cpp ${APP_ICON_RESOURCE})
 
 # Include directories
 target_include_directories(controller-emu PRIVATE

@@ -145,7 +145,7 @@ void ControllerManager::readControllerInput()
                     ControllerState state = parser.parseRawData(buffer);
                     parser.updateXInputState(vigem_client, target, state);
                 }
-                std::wcout << std::endl;
+                std::wcout << "\n";
             }
 
             // Copy current state to previous state
