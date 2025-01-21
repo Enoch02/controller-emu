@@ -40,7 +40,7 @@ ControllerState ControllerParser::parseRawData(const std::vector<uint8_t> &data)
         // parse analog sticks
         // Convert to 16-bit range
         state.leftStickX = (data[3] - 128) * 256;
-        //state.leftStickY = (data[4] - 128) * 256; // Invert TODO: not inverted .. yet
+        // state.leftStickY = (data[4] - 128) * 256;
         state.leftStickY = ((255 - data[4]) - 128) * 256;
         state.rightStickX = (data[1] - 128) * 256;
         state.rightStickY = (data[2] - 128) * 256;
@@ -50,6 +50,12 @@ ControllerState ControllerParser::parseRawData(const std::vector<uint8_t> &data)
         state.leftThumb = analog_buttons == 0x40;
         state.rightThumb = analog_buttons == 0x80;
 
+        if (analog_buttons == 0xc0)
+        {
+            state.leftThumb = true;
+            state.rightThumb = true;
+        }
+
         // parse buttons
         uint8_t buttons = data[5];
         state.a = buttons == 0x4F;
@@ -57,24 +63,179 @@ ControllerState ControllerParser::parseRawData(const std::vector<uint8_t> &data)
         state.x = buttons == 0x8F;
         state.y = buttons == 0x1F;
 
+        // parse dpad
+        state.dpadUp = buttons == 0x00;
+        state.dpadDown = buttons == 0x04;
+        state.dpadLeft = buttons == 0x06;
+        state.dpadRight = buttons == 0x02;
+
+        // up + left
+        if (buttons == 0x07)
+        {
+            state.dpadUp = true;
+            state.dpadLeft = true;
+        }
+
+        // up + right
+        if (buttons == 0x01)
+        {
+            state.dpadUp = true;
+            state.dpadRight = true;
+        }
+
+        // down + left
+        if (buttons == 0x05)
+        {
+            state.dpadDown = true;
+            state.dpadLeft = true;
+        }
+
+        // down + right
+        if (buttons == 0x03)
+        {
+            state.dpadDown = true;
+            state.dpadRight = true;
+        }
+
         // parse start and select
         uint8_t start_select = data[6];
         state.start = start_select == 0x20;
         state.back = start_select == 0x10;
 
+        if (start_select == 0x30)
+        {
+            state.start = true;
+            state.back = true;
+        }
+
+        uint8_t triggers = data[6];
         // parse l2 and r2
-        state.leftTrigger = data[6] == 0x04 ? 255 : 0;
-        state.rightTrigger = data[6] == 0x08 ? 255 : 0;
+        state.leftTrigger = triggers == 0x04 ? 255 : 0;
+        state.rightTrigger = triggers == 0x08 ? 255 : 0;
 
         // parse l1 and r1
-        state.leftShoulder = data[6] == 0x01 ? true : false;
-        state.rightShoulder = data[6] == 0x02 ? true : false;
+        state.leftShoulder = triggers == 0x01;
+        state.rightShoulder = triggers == 0x02;
 
-        // parse dpad
-        state.dpadUp = data[5] == 0x00 ? true : false;
-        state.dpadDown = data[5] == 0x04 ? true : false;
-        state.dpadLeft = data[5] == 0x06 ? true : false;
-        state.dpadRight = data[5] == 0x02 ? true : false;
+        // button combinations need to be mapped apparently
+        if (buttons == 0xff)
+        {
+            state.a = true;
+            state.b = true;
+            state.x = true;
+            state.y = true;
+        }
+
+        // buttons 3 and 2
+        if (buttons == 0x6f)
+        {
+            state.a = true;
+            state.b = true;
+        }
+
+        // buttons 3 and 4
+        if (buttons == 0xcf)
+        {
+            state.a = true;
+            state.x = true;
+        }
+
+        // buttons 3 and 1
+        if (buttons == 0x5f)
+        {
+            state.a = true;
+            state.y = true;
+        }
+
+        // buttons 2 + 4 (0xAF)
+        if (buttons == 0xaf)
+        {
+            state.b = true;
+            state.x = true;
+        }
+
+        // buttons 2 + 1 (0x3F)
+        if (buttons == 0x3f)
+        {
+            state.b = true;
+            state.y = true;
+        }
+
+        // buttons 4 + 1 (0x9F)
+        if (buttons == 0x9f)
+        {
+            state.x = true;
+            state.y = true;
+        }
+
+        // buttons 3 + 2 + d (0xEF)
+        if (buttons == 0xef)
+        {
+            state.a = true;
+            state.b = true;
+            state.x = true;
+        }
+
+        // buttons 3 + 2 + 1 (0x7F)
+        if (buttons == 0x7f)
+        {
+            state.a = true;
+            state.b = true;
+            state.y = true;
+        }
+
+        // buttons 3 + 4 + 1 (0xDF)
+        if (buttons == 0xdf)
+        {
+            state.a = true;
+            state.x = true;
+            state.y = true;
+        }
+
+        // buttons 2 + 4 + 1 (0xBF)
+        if (buttons == 0xbf)
+        {
+            state.b = true;
+            state.x = true;
+            state.y = true;
+        }
+
+        // r1 + l1
+        if (triggers == 0x03)
+        {
+            state.rightShoulder = true;
+            state.leftShoulder = true;
+        }
+
+        // l2 + r2
+        if (triggers == 0x0c)
+        {
+            state.leftTrigger = 255;
+            state.rightTrigger = 255;
+        }
+
+        // l1 + l2
+        if (triggers == 0x05)
+        {
+            state.leftShoulder = true;
+            state.leftTrigger = 255;
+        }
+
+        // r1 + r2
+        if (triggers == 0x0a)
+        {
+            state.rightShoulder = true;
+            state.rightTrigger = 255;
+        }
+
+        // l1 + l2 + r1 + r2
+        if (triggers == 0x0f)
+        {
+            state.leftShoulder = true;
+            state.leftTrigger = 255;
+            state.rightShoulder = true;
+            state.rightTrigger = 255;
+        }
     }
 
     return state;

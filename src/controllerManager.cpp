@@ -127,7 +127,9 @@ void ControllerManager::readControllerInput()
             // Only print if state changed
             if (stateChanged)
             {
-                std::wcout << L"Input changed at " << std::dec << std::time(nullptr) << L" - Raw data: ";
+                auto now = std::chrono::system_clock::now();
+                auto time = std::chrono::system_clock::to_time_t(now);
+                std::wcout << L"Input changed at " << std::put_time(std::localtime(&time), L"%H:%M:%S") << L" - Raw data: ";
                 for (int i = 0; i < result; i++)
                 {
                     if (buffer[i] != previousBuffer[i])
@@ -141,12 +143,12 @@ void ControllerManager::readControllerInput()
                         std::wcout << std::hex << std::setw(2) << std::setfill(L'0') << static_cast<int>(buffer[i])
                                    << L" ";
                     }
-
-                    ControllerState state = parser.parseRawData(buffer);
-                    parser.updateXInputState(vigem_client, target, state);
                 }
                 std::wcout << "\n";
             }
+
+            ControllerState state = parser.parseRawData(buffer);
+            parser.updateXInputState(vigem_client, target, state);
 
             // Copy current state to previous state
             previousBuffer = buffer;
