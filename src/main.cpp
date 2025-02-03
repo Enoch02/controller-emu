@@ -1,8 +1,6 @@
 #include "controllerManager.h"
 
-//TODO: holding down the dpad causes repeated pressing of the dpad button
-// instead of remaining in the pressed state, makes using potions in the witcher 3
-// annoying. Fix it
+// TODO: stop the program when the controller is disconnected
 int main()
 {
     ControllerManager manager;
