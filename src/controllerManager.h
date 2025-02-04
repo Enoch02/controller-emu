@@ -1,6 +1,4 @@
-#ifndef CONTROLLER_MANAGER_H
-#define CONTROLLER_MANAGER_H
-
+#pragma once
 #define WIN32_LEAN_AND_MEAN
 #include <chrono>
 #include <iostream>
@@ -42,5 +40,3 @@ class ControllerManager
 
     const size_t report_size = 64; // default report size
 };
-
-#endif // CONTROLLER_MANAGER_H
