@@ -129,7 +129,8 @@ void ControllerManager::readControllerInput()
             {
                 auto now = std::chrono::system_clock::now();
                 auto time = std::chrono::system_clock::to_time_t(now);
-                std::wcout << L"Input changed at " << std::put_time(std::localtime(&time), L"%H:%M:%S") << L" - Raw data: ";
+                std::wcout << L"Input changed at " << std::put_time(std::localtime(&time), L"%H:%M:%S")
+                           << L" - Raw data: ";
                 for (int i = 0; i < result; i++)
                 {
                     if (buffer[i] != previousBuffer[i])
@@ -152,6 +153,12 @@ void ControllerManager::readControllerInput()
 
             // Copy current state to previous state
             previousBuffer = buffer;
+        }
+
+        if (result == -1)
+        {
+            std::wcerr << "An error has occurred:\n" << hid_error(selected_device);
+            stop();
         }
     }
 }

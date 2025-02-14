@@ -1,6 +1,5 @@
 #include "controllerManager.h"
 
-// TODO: stop the program when the controller is disconnected
 int main()
 {
     ControllerManager manager;
