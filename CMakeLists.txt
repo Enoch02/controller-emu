@@ -21,7 +21,6 @@ set(HIDAPI_LIBRARY_DIR "${MSYS2_MINGW64_PATH}/lib")
 # Add ViGEmClient as a subdirectory
 add_subdirectory("src/ViGEmClient")
 
-# Define your executable
 add_executable(controller-emu src/main.cpp src/ControllerManager.cpp src/ControllerParser.cpp ${APP_ICON_RESOURCE})
 
 # Include directories
@@ -32,14 +31,14 @@ target_include_directories(controller-emu PRIVATE
 # Link libraries
 target_link_libraries(controller-emu PRIVATE
     "${HIDAPI_LIBRARY_DIR}/libhidapi.a"  # HIDAPI static library
-    ViGEmClient::ViGEmClient  # Explicit target linking#
+    ViGEmClient::ViGEmClient  # Explicit target linking
     Setupapi    # Link against SetupAPI for Windows API functions
 )
 
 target_compile_options(controller-emu PRIVATE
     -Wall
     -Wextra
-    #-Werror
+    -Werror
     -pedantic
     -g
 )
