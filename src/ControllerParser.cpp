@@ -236,6 +236,118 @@ ControllerState ControllerParser::parseRawData(const std::vector<uint8_t> &data)
             state.rightShoulder = true;
             state.rightTrigger = 255;
         }
+
+        // d-pad up + 3
+        if (buttons == 0x40)
+        {
+            state.a = true;
+            state.dpadUp = true;
+        }
+
+        // d-pad up + 2
+        if (buttons == 0x20)
+        {
+            state.b = true;
+            state.dpadUp = true;
+        }
+
+        // d-pad up + 1
+        if (buttons == 0x10)
+        {
+            state.y = true;
+            state.dpadUp = true;
+        }
+
+        // d-pad up + 4
+        if (buttons == 0x80)
+        {
+            state.x = true;
+            state.dpadUp = true;
+        }
+
+        // d-pad down + 3
+        if (buttons == 0x44)
+        {
+            state.a = true;
+            state.dpadDown = true;
+        }
+
+        // d-pad down + 2
+        if (buttons == 0x24)
+        {
+            state.b = true;
+            state.dpadDown = true;
+        }
+
+        // d-pad down + 1
+        if (buttons == 0x14)
+        {
+            state.y = true;
+            state.dpadDown = true;
+        }
+
+        // d-pad down + 4
+        if (buttons == 0x84)
+        {
+            state.x = true;
+            state.dpadDown = true;
+        }
+
+        // d-pad left + 3
+        if (buttons == 0x46)
+        {
+            state.a = true;
+            state.dpadLeft = true;
+        }
+
+        // d-pad left + 2
+        if (buttons == 0x26)
+        {
+            state.b = true;
+            state.dpadLeft = true;
+        }
+
+        // d-pad left + 1
+        if (buttons == 0x16)
+        {
+            state.y = true;
+            state.dpadLeft = true;
+        }
+
+        // d-pad left + 4
+        if (buttons == 0x86)
+        {
+            state.x = true;
+            state.dpadLeft = true;
+        }
+
+        // d-pad right + 3
+        if (buttons == 0x42)
+        {
+            state.a = true;
+            state.dpadRight = true;
+        }
+
+        // d-pad right + 2
+        if (buttons == 0x22)
+        {
+            state.b = true;
+            state.dpadRight = true;
+        }
+
+        // d-pad right + 1
+        if (buttons == 0x12)
+        {
+            state.y = true;
+            state.dpadRight = true;
+        }
+
+        // d-pad right + 4
+        if (buttons == 0x82)
+        {
+            state.x = true;
+            state.dpadRight = true;
+        }
     }
 
     return state;
