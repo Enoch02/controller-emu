@@ -237,6 +237,52 @@ ControllerState ControllerParser::parseRawData(const std::vector<uint8_t> &data)
             state.rightTrigger = 255;
         }
 
+        // R2 + L1
+        if (triggers == 0x09)
+        {
+            state.rightTrigger = 255;
+            state.leftShoulder = true;
+        }
+
+        // L2 + R1
+        if (triggers == 0x06)
+        {
+            state.leftTrigger = 255;
+            state.rightShoulder = true;
+        }
+
+        // R1 + R2 + L1
+        if (triggers == 0x0b)
+        {
+            state.rightShoulder = true;
+            state.rightTrigger = 255;
+            state.leftShoulder = true;
+        }
+
+        // R1 + R2 + L2
+        if (triggers == 0x0e)
+        {
+            state.rightShoulder = true;
+            state.rightTrigger = 255;
+            state.leftTrigger = 255;
+        }
+
+        // L1 + L2 + R1
+        if (triggers == 0x07)
+        {
+            state.leftShoulder = true;
+            state.leftTrigger = 255;
+            state.rightShoulder = true;
+        }
+
+        // L1 + L2 + R2
+        if (triggers == 0x0d)
+        {
+            state.leftShoulder = true;
+            state.leftTrigger = 255;
+            state.rightTrigger = 255;
+        }
+
         // d-pad up + 3
         if (buttons == 0x40)
         {
