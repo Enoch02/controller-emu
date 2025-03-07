@@ -394,6 +394,106 @@ ControllerState ControllerParser::parseRawData(const std::vector<uint8_t> &data)
             state.x = true;
             state.dpadRight = true;
         }
+
+        // left stick btn + R1
+        if (analog_buttons == 0x42)
+        {
+            state.leftThumb = true;
+            state.rightShoulder = true;
+        }
+
+        // left stick btn + R2
+        if (analog_buttons == 0x48)
+        {
+            state.leftThumb = true;
+            state.rightTrigger = 255;
+        }
+
+        // left stick btn + R1 + R2 (would one ever need to use this combo???)
+        if (analog_buttons == 0x4a)
+        {
+            state.leftThumb = true;
+            state.rightShoulder = true;
+            state.rightTrigger = 255;
+        }
+
+        // left stick btn + L1
+        if (analog_buttons == 0x41)
+        {
+            state.leftThumb = true;
+            state.leftShoulder = true;
+        }
+
+        // left stick btn + L2
+        if (analog_buttons == 0x44)
+        {
+            state.leftThumb = true;
+            state.leftTrigger = 255;
+        }
+
+        // left stick btn + L1 + L2
+        if (analog_buttons == 0x45)
+        {
+            state.leftThumb = true;
+            state.leftShoulder = true;
+            state.leftTrigger = 255;
+        }
+
+        ////////////////////////////////////////////////
+        // right stick btn + R1
+        if (analog_buttons == 0x82)
+        {
+            state.rightThumb = true;
+            state.rightShoulder = true;
+        }
+
+        // right stick btn + R2
+        if (analog_buttons == 0x88)
+        {
+            state.rightThumb = true;
+            state.rightTrigger = 255;
+        }
+
+        // right stick btn + R1 + R2
+        if (analog_buttons == 0x8a)
+        {
+            state.rightThumb = true;
+            state.rightShoulder = true;
+            state.rightTrigger = 255;
+        }
+
+        // right stick btn + L1
+        if (analog_buttons == 0x81)
+        {
+            state.rightThumb = true;
+            state.leftShoulder = true;
+        }
+
+        // right stick btn + L2
+        if (analog_buttons == 0x84)
+        {
+            state.rightThumb = true;
+            state.leftTrigger = 255;
+        }
+
+        // right stick btn + L1 + L2
+        if (analog_buttons == 0x8a)
+        {
+            state.rightThumb = true;
+            state.leftShoulder = true;
+            state.leftTrigger = 255;
+        }
+
+        // right + left stick btn + L1 + L2 + R1 + R2
+        if (analog_buttons == 0xcf)
+        {
+            state.rightThumb = true;
+            state.leftThumb = true;
+            state.leftShoulder = true;
+            state.leftTrigger = 255;
+            state.rightShoulder = true;
+            state.rightTrigger = 255;
+        }
     }
 
     return state;
