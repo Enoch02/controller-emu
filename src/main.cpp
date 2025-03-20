@@ -18,13 +18,26 @@ int main()
         return 1;
     }
 
-    std::wcout << L"Select a device to use: ";
     int selection{};
-    std::cin >> selection;
 
-    if (!manager.selectDevice(device_list, selection))
+    // input validation loop
+    for (;;)
     {
-        return 1;
+        std::wcout << L"Select a device to use: ";
+
+        if (std::cin >> selection)
+        {
+            if (manager.selectDevice(device_list, selection))
+            {
+                break;
+            }
+        }
+        else
+        {
+            std::wcout << L"Enter a valid integer" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
     }
 
     manager.readControllerInput();
